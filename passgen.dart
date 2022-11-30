@@ -2,10 +2,14 @@ import 'dart:io';
 import 'dart:math';
 
 void main() {
-  int passtype;
+  var passtype;
+  print("___________PasswordGenerator___________");
   print("Password Type:\n [1] Weak\n [2] Medium\n [3] Strong\n [4] Others\n");
-  print("Enter pasword type to generate:");
-  passtype = int.parse(stdin.readLineSync());
+  stdout.write("Enter pasword type:\t");
+  String? temp = stdin.readLineSync();
+  if (temp != null) {
+    passtype = int.parse(temp);
+  }
 
   passwordGen pass = new passwordGen(passtype);
   pass.generate();
@@ -13,10 +17,11 @@ void main() {
 }
 
 class passwordGen {
-  int passtype, nums;
+  var passtype;
+  int nums = 0;
 
   String pass = "q";
-  int upper, lower, num, spe;
+  int upper = 0, lower = 0, num = 0, spe = 0;
   passwordGen(int newpasswordGen) {
     this.passtype = newpasswordGen;
   }
@@ -31,9 +36,7 @@ class passwordGen {
       num = count;
       spe = rem;
       nums = n;
-    }
-
-    if (passtype == 2) {
+    } else if (passtype == 2) {
       int n = 15;
       int count = (n / 3).toInt();
       int rem = (n.remainder(3));
@@ -42,9 +45,7 @@ class passwordGen {
       num = count;
       spe = rem;
       nums = n;
-    }
-
-    if (passtype == 3) {
+    } else if (passtype == 3) {
       int n = 25;
       int count = (n / 3).toInt();
       int rem = (n.remainder(3));
@@ -53,12 +54,13 @@ class passwordGen {
       num = count;
       spe = rem;
       nums = n;
-    }
-
-    if (passtype == 4) {
-      int n;
-      print("Enter password length:");
-      n = int.parse(stdin.readLineSync());
+    } else if (passtype == 4) {
+      int n = 0;
+      stdout.write("Enter password length:\t");
+      String? temp = stdin.readLineSync();
+      if (temp != null) {
+        n = int.parse(temp);
+      }
       int count = (n / 3).toInt();
       int rem = (n.remainder(3));
       upper = count;
@@ -66,6 +68,8 @@ class passwordGen {
       num = count;
       spe = rem;
       nums = n;
+    } else {
+      print("Invalid Input");
     }
     var alp = [
       "q",
@@ -139,6 +143,7 @@ class passwordGen {
     }
     pass = newpass;
     pass = pass.substring(1);
-    print("Your Password: $pass");
+    print("*********************************************\n");
+    print("Your Password:\t $pass");
   }
 }
