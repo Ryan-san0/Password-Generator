@@ -2,18 +2,35 @@ import 'dart:io';
 import 'dart:math';
 
 void main() {
-  var passtype;
-  print("___________PasswordGenerator___________");
-  print("Password Type:\n [1] Weak\n [2] Medium\n [3] Strong\n [4] Others\n");
-  stdout.write("Enter pasword type:\t");
-  String? temp = stdin.readLineSync();
-  if (temp != null) {
-    passtype = int.parse(temp);
-  }
+  while (true) {
+    var passtype;
+    print("___________PasswordGenerator___________");
+    print("Password Type:\n [1] Weak\n [2] Medium\n [3] Strong\n [4] Others\n");
+    stdout.write("Enter pasword type:\t");
 
-  passwordGen pass = new passwordGen(passtype);
-  pass.generate();
-  pass.shuffleGen();
+    try {
+      var temp = stdin.readLineSync();
+      if (temp != null) {
+        passtype = int.parse(temp);
+      }
+    } catch (e) {
+      print("Unexpected Input");
+      print("*********************************************\n");
+      continue;
+    }
+
+    passwordGen pass = new passwordGen(passtype);
+    pass.generate();
+    pass.shuffleGen();
+    stdout.write("Do you want to try again (y|n):\t");
+    String? ex = stdin.readLineSync();
+
+    if (ex == 'y' || ex == 'Y' || ex == 'yes' || ex == 'YES' || ex == 'Yes') {
+      continue;
+    } else {
+      break;
+    }
+  }
 }
 
 class passwordGen {
@@ -56,20 +73,28 @@ class passwordGen {
       nums = n;
     } else if (passtype == 4) {
       int n = 0;
-      stdout.write("Enter password length:\t");
-      String? temp = stdin.readLineSync();
-      if (temp != null) {
-        n = int.parse(temp);
+      while (true) {
+        try {
+          stdout.write("Enter password length:\t");
+          String? temp = stdin.readLineSync();
+          if (temp != null) {
+            n = int.parse(temp);
+          }
+          int count = (n / 3).toInt();
+          int rem = (n.remainder(3));
+          upper = count;
+          lower = count;
+          num = count;
+          spe = rem;
+          nums = n;
+          break;
+        } catch (e) {
+          print("Unexpected Input");
+          continue;
+        }
       }
-      int count = (n / 3).toInt();
-      int rem = (n.remainder(3));
-      upper = count;
-      lower = count;
-      num = count;
-      spe = rem;
-      nums = n;
     } else {
-      print("Invalid Input");
+      print("Invalid Choice");
     }
     var alp = [
       "q",
